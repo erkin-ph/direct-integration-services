@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.backbase.academy.peachtree</groupId>
+    <artifactId>direct-integration-services</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Peachtree :: Direct Integration :: Aggregator</name>
+
+    <modules>
+        <module>transactions-direct-integration-service</module>
+        <module>product-summary-direct-integration-service</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <port>8088</port>
+        <registry.host>localhost</registry.host>
+        <registry.port>8080</registry.port>
+        <registry.client.url>http://${registry.host}:${registry.port}/registry/eureka</registry.client.url>
+        <sig.secret.key>JWTSecretKeyDontUseInProduction!</sig.secret.key>
+        <ext.sig.secret.key>JWTSecretKeyDontUseInProduction!</ext.sig.secret.key>
+        <ext.enc.secret.key>JWTEncKeyDontUseInProduction666!</ext.enc.secret.key>
+        <user.context.key>JWTSecretKeyDontUseInProduction!</user.context.key>
+
+        <blade.openBrowserOnStartup>false</blade.openBrowserOnStartup>
+
+        <!-- Disable logging encoding -->
+        <logging.secured.enabled>false</logging.secured.enabled>
+
+        <!-- Set Expiry Time to one hour  -->
+        <sso.jwt.external.expiration>3600</sso.jwt.external.expiration>
+        <sso.jwt.external.renew>1800</sso.jwt.external.renew>
+        <sso.jwt.external.not_valid_after>86400</sso.jwt.external.not_valid_after>
+        <manager.url>http://localhost:8080/gateway/cxp-manager</manager.url>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.backbase.academy.peachtree</groupId>
+            <artifactId>transactions-direct-integration-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.backbase.academy.peachtree</groupId>
+            <artifactId>product-summary-direct-integration-service</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.backbase.maven.plugins</groupId>
+                <artifactId>blade-maven-plugin</artifactId>
+                <version>4.0.5</version>
+                <executions>
+                    <execution>
+                        <id>blade</id>
+                    </execution>
+                </executions>
+                <configuration>
+                    <openBrowserOnStartup>${blade.openBrowserOnStartup}</openBrowserOnStartup>
+                    <port>${port}</port>
+                    <name>Direct Integration Services</name>
+                    <systemProperties>
+                        <BACKBASE_ENVROLE>editorial</BACKBASE_ENVROLE>
+
+                        <!-- Non Spring Boot applications still require system properties -->
+                        <spring.activemq.broker-url>tcp://localhost:61616</spring.activemq.broker-url>
+                        <spring.activemq.user>admin</spring.activemq.user>
+                        <spring.activemq.password>admin</spring.activemq.password>
+
+                        <!-- Disable logging encoding -->
+                        <logging.secured.enabled>false</logging.secured.enabled>
+
+                        <!-- Service Registry -->
+                        <REGISTRY_HOST>${registry.host}</REGISTRY_HOST>
+                        <REGISTRY_PORT>${registry.port}</REGISTRY_PORT>
+
+                        <GATEWAY_REGISTRY_HOST>localhost</GATEWAY_REGISTRY_HOST>
+                        <AUTH_REGISTRY_HOST>localhost</AUTH_REGISTRY_HOST>
+                        <ACTIVEMQ_URL>tcp://localhost:61616</ACTIVEMQ_URL>
+
+                        <!-- Shared Secret key to validate Internal JWT signature -->
+                        <SIG_SECRET_KEY>${sig.secret.key}</SIG_SECRET_KEY>
+
+                        <registry.client.serviceUrl>defaultZone=${registry.client.url}</registry.client.serviceUrl>
+                        <eureka.client.serviceUrl.defaultZone>${registry.client.url}</eureka.client.serviceUrl.defaultZone>
+
+                        <eureka.instance.nonSecurePort>${port}</eureka.instance.nonSecurePort>
+                        <eureka.instance.hostname>${registry.host}</eureka.instance.hostname>
+                        <eureka.instance.preferIpAddress>false</eureka.instance.preferIpAddress>
+                        <server.port>${port}</server.port>
+                    </systemProperties>
+                    <stages>
+                        <stage>
+                            <id>direct-integration-services</id>
+                            <name>Direct Integration Services</name>
+                            <autoStart>true</autoStart>
+                            <multiThreaded>true</multiThreaded>
+                            <webApps>
+                                <webApp>
+                                    <groupId>com.backbase.academy.peachtree</groupId>
+                                    <artifactId>transactions-direct-integration-service</artifactId>
+                                </webApp>
+                                <webApp>
+                                    <groupId>com.backbase.academy.peachtree</groupId>
+                                    <artifactId>product-summary-direct-integration-service</artifactId>
+                                </webApp>
+                            </webApps>
+                        </stage>
+                    </stages>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,8 @@
+# Logging
+logging:
+  level:
+    root: INFO
+    com.backbase: DEBUG
+    org.springframework: INFO
+    # Temporary: Ignore Eureka Client error messages during tests (workaround) - https://stash.backbase.com/projects/INFRA/repos/api-registry-client/browse
+    com.netflix.discovery: OFF

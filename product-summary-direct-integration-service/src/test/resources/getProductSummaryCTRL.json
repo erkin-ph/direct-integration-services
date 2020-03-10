@@ -1,0 +1,50 @@
+{
+  "currentAccounts": {
+    "name": "Current Accounts",
+    "products": [
+      {
+        "bookedBalance": "17391.5600000000",
+        "availableBalance": "17391.5600000000",
+        "IBAN": "8a8586a66a1fba5d016a1ffb81120a9a",
+        "currency": "EUR",
+        "accountInterestRate": 0,
+        "debitCardsItems": [
+
+        ],
+        "accountHolderName": "William Suane",
+        "id": "AJUZ764",
+        "name": "Everyday Checking",
+        "productTypeName": "CURRENT_ACCOUNT",
+        "alias": "Checking account.&nbsp;",
+        "visible": true,
+        "accountOpeningDate": "2019-04-14T22:00:00.000+0000",
+        "subArrangements": [
+
+        ]
+      },
+      {
+        "bookedBalance": "3000.0000000000",
+        "availableBalance": "3000.0000000000",
+        "IBAN": "8a8586a66a1fba5d016a200e6b8d131b",
+        "currency": "EUR",
+        "accountInterestRate": 0,
+        "debitCardsItems": [
+
+        ],
+        "accountHolderName": "William Suane",
+        "id": "AMRY397",
+        "name": "Way2Save Savings",
+        "productTypeName": "CURRENT_ACCOUNT",
+        "alias": "Saving's account",
+        "visible": true,
+        "accountOpeningDate": "2019-04-14T22:00:00.000+0000",
+        "subArrangements": [
+
+        ]
+      }
+    ]
+  },
+  "customProductKinds": [
+
+  ]
+}
